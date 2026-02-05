@@ -1,0 +1,10 @@
+[package]
+name = "light_epub"
+version = "0.1.0"
+edition = "2024"
+authors = ["Muktadir"]
+description = "A no_std ePub parsing engine"
+
+[dependencies]
+
+nom = { version = "8.0", default-features = false }
