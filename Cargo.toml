@@ -7,7 +7,7 @@ description = "A no_std ePub parser designed for speed, utilizing zero-copy acce
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/foxpc-ai/light_epub"
 keywords = ["epub", "no_std", "embedded", "parser", "ebook"]
-categories = ["parser-implementations", "embedded-hal", "parsing"]
+categories = ["parser-implementations", "no-std", "parsing"]
 
 [dependencies]
 nom = { version = "8.0", default-features = false }
@@ -16,7 +16,7 @@ miniz_oxide = { version = "0.8.9", default-features = false, features = ["with-a
 
 serde = { version = "1.0.228", default-features = false, optional = true, features = ["derive", "alloc"] }
 
-quick-xml = { version = "0.38.4", default-features = false, features = ["serialize"]}
+quick-xml = { version = "0.38.4", default-features = false}
 
 [features]
 
@@ -24,4 +24,4 @@ default = ["std"]
 
 std = ["alloc", "nom/std", "serde?/std"]
 
-alloc = ["quick-xml/serialize", "serde?/alloc"]
+alloc = ["serde?/alloc"]
