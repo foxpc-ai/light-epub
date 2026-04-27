@@ -150,7 +150,6 @@ pub(crate) fn parse_package(
                         let mut is_cover_meta = false;
                         let mut content = None;
 
-                        // let mut attr_iter = e.html_attributes();
                         for attr_result in e.html_attributes() {
                             let attr = match attr_result {
                                 Ok(a) => a,

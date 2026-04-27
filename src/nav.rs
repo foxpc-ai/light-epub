@@ -1,5 +1,5 @@
-use alloc::string::String;
-use alloc::string::ToString;
+use crate::opf::SpineItem;
+use alloc::string::{String, ToString};
 use alloc::vec::Vec;
 use quick_xml::{Reader, events::Event};
 
@@ -8,9 +8,19 @@ use quick_xml::{Reader, events::Event};
 pub struct NavItem {
     pub title: String,
     pub href: String,
+    pub spine_index: usize,
 }
 
-pub(crate) fn parse_toc_ncx(content: &[u8]) -> Vec<NavItem> {
+fn find_spine_index(href: &str, spine_items: &[SpineItem]) -> usize {
+    let base_path = href.split('#').next().unwrap_or(href);
+
+    spine_items
+        .iter()
+        .position(|item| item.href.ends_with(base_path))
+        .unwrap_or(0)
+}
+
+pub(crate) fn parse_toc_ncx(content: &[u8], spine_items: &[SpineItem]) -> Vec<NavItem> {
     let mut reader = Reader::from_reader(content);
     let mut items = Vec::new();
     let mut buf = Vec::new();
@@ -35,13 +45,19 @@ pub(crate) fn parse_toc_ncx(content: &[u8]) -> Vec<NavItem> {
                     let href = attr
                         .decode_and_unescape_value(reader.decoder())
                         .unwrap_or_else(|_| {
-                            reader.decoder().decode(&attr.value).unwrap_or_default()
-                        })
-                        .into_owned();
+                            reader
+                                .decoder()
+                                .decode(&attr.value)
+                                .unwrap_or_default()
+                                
+                        }).into_owned();
+
+                    let spine_index = find_spine_index(&href, spine_items);
 
                     items.push(NavItem {
                         title: current_title.trim().to_string(),
                         href,
+                        spine_index,
                     });
                 }
             }
@@ -53,7 +69,7 @@ pub(crate) fn parse_toc_ncx(content: &[u8]) -> Vec<NavItem> {
     items
 }
 
-pub(crate) fn parse_nav_xhtml(content: &[u8]) -> Vec<NavItem> {
+pub(crate) fn parse_nav_xhtml(content: &[u8], spine_items: &[SpineItem]) -> Vec<NavItem> {
     let mut reader = Reader::from_reader(content);
     let mut items = Vec::new();
     let mut buf = Vec::new();
@@ -71,9 +87,12 @@ pub(crate) fn parse_nav_xhtml(content: &[u8]) -> Vec<NavItem> {
                     current_href = attr
                         .decode_and_unescape_value(reader.decoder())
                         .unwrap_or_else(|_| {
-                            reader.decoder().decode(&attr.value).unwrap_or_default()
-                        })
-                        .into_owned();
+                            reader
+                                .decoder()
+                                .decode(&attr.value)
+                                .unwrap_or_default()
+                                
+                        }).into_owned();
                     in_link = true;
                 }
             }
@@ -81,9 +100,12 @@ pub(crate) fn parse_nav_xhtml(content: &[u8]) -> Vec<NavItem> {
                 let decoded = reader.decoder().decode(e.as_ref()).unwrap_or_default();
                 let title = decoded.trim().to_string();
 
+                let spine_index = find_spine_index(&current_href, spine_items);
+
                 items.push(NavItem {
                     title,
                     href: current_href.clone(),
+                    spine_index,
                 });
                 in_link = false;
             }
