@@ -109,7 +109,7 @@ pub(crate) fn find_offset_and_size(
     ))
 }
 
-pub fn get_content<'a>(
+pub(crate) fn get_content<'a>(
     input: &'a [u8],
     target: &[u8],
     offset: Option<u32>,
@@ -128,7 +128,6 @@ pub fn get_content<'a>(
         .get(..zipentry.compressed_size as usize)
         .ok_or(EpubError::BufferTooShort)?;
 
-    // 3. Handle Compression
     match zipentry.compression_method {
         0 => Ok(Cow::Borrowed(file_bytes)),
         8 => {
@@ -144,7 +143,7 @@ pub fn get_content<'a>(
     }
 }
 
-pub fn get_content_buffer<'b>(
+pub(crate) fn get_content_buffer<'b>(
     input: &[u8],
     target: &[u8],
     offset: Option<u32>,

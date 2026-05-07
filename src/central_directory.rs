@@ -99,7 +99,7 @@ pub(crate) fn parse_eocd(input: &[u8]) -> IResult<&[u8], (u16, u32)> {
     Ok((input, (file_count, cd_start)))
 }
 
-pub fn parse_local_file(input: &[u8]) -> IResult<&[u8], ()> {
+pub(crate) fn parse_local_file(input: &[u8]) -> IResult<&[u8], ()> {
     let (input, _) = tag(LOCAL_MAGIC)(input)?;
     let (input, _) = take(22usize)(input)?;
     let (input, filename_length) = le_u16(input)?;
