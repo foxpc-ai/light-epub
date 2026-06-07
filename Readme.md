@@ -47,17 +47,6 @@ let mut scratch = [0u8; 65536];
 let chapter = book.get_chapter(epub_bytes, 0, Some(&mut scratch))?;
 ```
 
-
-
-## Roadmap
-
-The following features are being considered for future releases:
-
-* **Detection of Encrypted Resources**: Identifying items in the manifest that require decryption.
-* **DRM Support Hooks**: Investigating a trait-based system to allow external decryption providers (e.g., for Readium LCP) without bloating the `no_std` core.
-* **Enhanced EPUB 3 Support**: Better handling of Media Overlays and advanced metadata fields.
-* **Expanded Search**: Utilities for locating specific IDs or properties within the manifest.
-
 ## License
 
 This project is licensed under either the **MIT** or **Apache-2.0** license at your option.
