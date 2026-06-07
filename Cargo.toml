@@ -6,8 +6,8 @@ authors = ["Muktadir"]
 description = "A no_std ePub parser designed for speed, utilizing zero-copy access for book content and minimal allocations for metadata"
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/foxpc-ai/light_epub"
-keywords = ["epub", "no_std", "embedded", "parser", "ebook"]
-categories = ["parser-implementations", "no-std", "parsing"]
+keywords = ["epub", "no_std", "parser", "ebook"]
+categories = ["parser-implementations", "parsing"]
 
 [dependencies]
 nom = { version = "8.0", default-features = false }
