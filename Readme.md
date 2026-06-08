@@ -1,6 +1,6 @@
 # light-epub
 
-A specialized Rust library for memory-efficient EPUB parsing in `no_std` environments.
+A memory-efficient EPUB parsing library in Rust, compatible with both std and no_std environments.
 
 This library provides access to EPUB resources by manually parsing ZIP structures and XML streams. 
 

@@ -1,10 +1,10 @@
 [package]
 name = "light_epub"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2024"
-description = "A no_std ePub parser designed for speed, utilizing zero-copy access for book content and minimal allocations for metadata"
+description = "A fast, memory-efficient EPUB parsing library utilizing zero-copy access, designed with no_std compatibility in mind."
 license = "MIT OR Apache-2.0"
-repository = "https://github.com/foxpc-ai/light_epub"
+repository = "https://github.com/foxpc-ai/light-epub"
 keywords = ["epub", "no_std", "parser", "ebook"]
 categories = ["parser-implementations", "parsing"]
 
